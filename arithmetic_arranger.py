@@ -1,6 +1,6 @@
 def arithmetic_arranger(problems, result=False):
   if len(problems) > 5:
-    raise RuntimeError('Error: Too many problems.')
+    return 'Error: Too many problems.'
   row_0 = ''
   row_1 = ''
   row_2 = ''
@@ -34,7 +34,7 @@ def calc(operands, op):
       return int(operands[0]) + int(operands[1])
     return int(operands[0]) - int(operands[1])
   except ValueError:
-    raise ValueError('Error: Numbers must only contain digits.')
+    return 'Error: Numbers must only contain digits.'
 
 
 
@@ -64,7 +64,7 @@ def find_operands(problem):
     try:
       delimiter = " {} ".format(op)
     except UnboundLocalError:
-      raise UnboundLocalError("Error: Operator must be '+' or '-'")
+      return "Error: Operator must be '+' or '-'"
     operands = problem.split(delimiter)
     return operands
 
@@ -77,18 +77,17 @@ def find_operator(problem):
 def validate_operands(operands):
   for operand in operands:
     if len(operand) > 4:
-      raise RuntimeError('Error: Numbers cannot be more than four digits.')
-
-
+      return 'Error: Numbers cannot be more than four digits.'
 
 # arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"], True)
 
 # arithmetic_arranger(["32 + 698"], True)
 
-arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
+# arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
 # arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49", "523 - 49", "523 - 49"], True)
 # arithmetic_arranger(["32 * 698"], True)
 
 # arithmetic_arranger(["3.2 + 698"], True)
 
 # arithmetic_arranger(["32 + 69548"], True)
+arithmetic_arranger(["1 + 2", "1 - 9380"])
