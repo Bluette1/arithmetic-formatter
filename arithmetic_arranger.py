@@ -1,34 +1,41 @@
 def arithmetic_arranger(problems, result=False):
-    row_0 = ''
-    row_1 = ''
-    row_2 = ''
-    in_between = ''
-    row_3 = ''
+  if len(problems) > 5:
+    return 'Error: Too many problems.'
+  row_0 = ''
+  row_1 = ''
+  row_2 = ''
+  in_between = ''
+  row_3 = ''
 
-    arranged_problems = []
-    for prob in problems:
-      operands = find_operands(prob)
-      length_prob = max_length(operands)
-      
-      row_0 += in_between + add_digits(operands[0], length_prob + 2)
-      op = find_operator(prob)
-      row_1 += in_between + op + " " +  add_digits(operands[1], length_prob)
-      
-      row_2 += in_between + add_dashes(length_prob + 2)
-      if (result):
-        row_3 += in_between + add_digits(str(calc(operands, op)), length_prob + 2)
-      in_between = ' ' * 4
+  arranged_problems = []
+  for prob in problems:
+    operands = find_operands(prob)
+    validate_operands(operands)
+    length_prob = max_length(operands)
+    
+    row_0 += in_between + add_digits(operands[0], length_prob + 2)
+    op = find_operator(prob)
+    row_1 += in_between + op + " " +  add_digits(operands[1], length_prob)
+    
+    row_2 += in_between + add_dashes(length_prob + 2)
+    if (result):
+      row_3 += in_between + add_digits(str(calc(operands, op)), length_prob + 2)
+    in_between = ' ' * 4
 
-      arranged_problems = [row_0, row_1, row_2, row_3]
+    arranged_problems = [row_0, row_1, row_2, row_3]
 
-    print_grid(arranged_problems) 
+  print_grid(arranged_problems) 
 
-    return arranged_problems
+  return arranged_problems
 
 def calc(operands, op):
-  if (op == '+'):
-    return int(operands[0]) + int(operands[1])
-  return int(operands[0]) - int(operands[1])
+  try:
+    if (op == '+'):
+      return int(operands[0]) + int(operands[1])
+    return int(operands[0]) - int(operands[1])
+  except ValueError:
+    print('Error: Numbers must only contain digits.')
+    exit()
 
 
 
@@ -55,7 +62,11 @@ def find_operands(problem):
     elif check_operator(problem, '-'):
         op = '-'
 
-    delimiter = " {} ".format(op)
+    try:
+      delimiter = " {} ".format(op)
+    except UnboundLocalError:
+      print("Error: Operator must be '+' or '-'")
+      exit()
     operands = problem.split(delimiter)
     return operands
 
@@ -65,6 +76,12 @@ def find_operator(problem):
   elif check_operator(problem, '-'):
       return '-'
 
+def validate_operands(operands):
+  for operand in operands:
+    if len(operand) > 4:
+      print('Error: Numbers cannot be more than four digits.')
+      raise RuntimeError
+
 def print_grid(arranged_problems):
   for row in arranged_problems:
     print(row)
@@ -73,4 +90,9 @@ def print_grid(arranged_problems):
 
 # arithmetic_arranger(["32 + 698"], True)
 
-arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
+# arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
+# arithmetic_arranger(["32 * 698"], True)
+
+# arithmetic_arranger(["3.2 + 698"], True)
+
+arithmetic_arranger(["32 + 69548"], True)
