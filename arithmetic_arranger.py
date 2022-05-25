@@ -1,24 +1,24 @@
 def arithmetic_arranger(problems):
-    row_0 = ['']
-    row_1 = ['']
-    row_2 = ['']
-    in_between = ['']
+    row_0 = ''
+    row_1 = ''
+    row_2 = ''
+    in_between = ''
 
     arranged_problems = []
     for prob in problems:
       operands = find_operands(prob)
       length_prob = max_length(operands)
       
-      row_0 += in_between + add_digits(operands[0], length_prob + 1)
+      row_0 += in_between + add_digits(operands[0], length_prob + 2)
       op = find_operator(prob)
-      row_1 += in_between + [op] + add_digits(operands[1], length_prob)
+      row_1 += in_between + op + " " +  add_digits(operands[1], length_prob)
       
-      row_2 += in_between + add_dashes(length_prob + 1)
-      in_between = [' ' * 4]
+      row_2 += in_between + add_dashes(length_prob + 2)
+      in_between = ' ' * 4
 
       arranged_problems = [row_0, row_1, row_2]
 
-    print(arranged_problems)
+    print_grid(arranged_problems)
     
 
     return arranged_problems
@@ -30,10 +30,11 @@ def check_operator(problem, operator):
 
 def add_digits(operand, length):
   spaces = length - len(operand)
-  return [' '] * spaces + [digit for digit in operand]
+  return ' ' * spaces + operand
+  
 
 def add_dashes(length):
-  return ['-'] * length
+  return '-' * length
     
 
 def max_length(operands):
@@ -59,6 +60,6 @@ def print_grid(arranged_problems):
   for row in arranged_problems:
     print(row)
 
-arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])
+# arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])
 
-# arithmetic_arranger(["32 + 698"])
+arithmetic_arranger(["32 + 698"])
