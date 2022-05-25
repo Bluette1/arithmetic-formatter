@@ -1,49 +1,40 @@
 def arithmetic_arranger(problems):
-    num_probs = len(problems)
-    rows = 4
-    cols = 0
+    row_0 = ['']
+    row_1 = ['']
+    row_2 = ['']
+    in_between = ['']
+
+    arranged_problems = []
     for prob in problems:
-        operands = find_operands(prob)
-        length_prob = max_length(operands)
-        cols += length_prob
-    num_spaces = num_probs - 1
-    cols += 4 * num_spaces
-
-    formatting_grid = [rows][cols]
-
-    end = 0
-
-    for prob in problems:
-      length_prob = max_length(operands)
-      start = end + length_prob
       operands = find_operands(prob)
-      add_digits(operands[0], start, 0, formatting_grid)
+      length_prob = max_length(operands)
+      
+      row_0 += in_between + add_digits(operands[0], length_prob + 1)
       op = find_operator(prob)
-      formatting_grid[end][1] = op
-      add_digits(operands[1], start, 1, formatting_grid)
-      add_dashes(formatting_grid, start + end, start)
-      end = start + 5
+      row_1 += in_between + [op] + add_digits(operands[1], length_prob)
+      
+      row_2 += in_between + add_dashes(length_prob + 1)
+      in_between = [' ' * 4]
 
-    print_grid(formatting_grid)
+      arranged_problems = [row_0, row_1, row_2]
 
-    return formatting_grid
+    print(arranged_problems)
+    
+
+    return arranged_problems
 
 def check_operator(problem, operator):
     if problem.find(operator) == -1:
         return False
     return True
 
-def add_digits(operand, start, row, formatting_grid):
-  i = start
-  for digit in operand:
-    formatting_grid[row][i] = digit
-    i -= 1
+def add_digits(operand, length):
+  spaces = length - len(operand)
+  return [' '] * spaces + [digit for digit in operand]
 
-def add_dashes(formatting_grid, start, end):
-  i = start
-  for i in range(start, end):
-    formatting_grid[2][i] = '-'
-    i -= 1
+def add_dashes(length):
+  return ['-'] * length
+    
 
 def max_length(operands):
     return max([len(operand) for operand in operands])
@@ -64,6 +55,10 @@ def find_operator(problem):
   elif check_operator(problem, '-'):
       return '-'
 
-def print_grid(formatting_grid):
-  for row in formatting_grid:
-    print ("{}\n", row.join())
+def print_grid(arranged_problems):
+  for row in arranged_problems:
+    print(row)
+
+arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])
+
+# arithmetic_arranger(["32 + 698"])
