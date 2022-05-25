@@ -1,6 +1,6 @@
 def arithmetic_arranger(problems, result=False):
   if len(problems) > 5:
-    return 'Error: Too many problems.'
+    raise RuntimeError('Error: Too many problems.')
   row_0 = ''
   row_1 = ''
   row_2 = ''
@@ -24,9 +24,9 @@ def arithmetic_arranger(problems, result=False):
 
     arranged_problems = [row_0, row_1, row_2, row_3]
 
-  print_grid(arranged_problems) 
+  print('\n'.join(arranged_problems))
 
-  return arranged_problems
+  return '\n'.join(arranged_problems)
 
 def calc(operands, op):
   try:
@@ -34,8 +34,7 @@ def calc(operands, op):
       return int(operands[0]) + int(operands[1])
     return int(operands[0]) - int(operands[1])
   except ValueError:
-    print('Error: Numbers must only contain digits.')
-    exit()
+    raise ValueError('Error: Numbers must only contain digits.')
 
 
 
@@ -65,8 +64,7 @@ def find_operands(problem):
     try:
       delimiter = " {} ".format(op)
     except UnboundLocalError:
-      print("Error: Operator must be '+' or '-'")
-      exit()
+      raise UnboundLocalError("Error: Operator must be '+' or '-'")
     operands = problem.split(delimiter)
     return operands
 
@@ -79,20 +77,18 @@ def find_operator(problem):
 def validate_operands(operands):
   for operand in operands:
     if len(operand) > 4:
-      print('Error: Numbers cannot be more than four digits.')
-      raise RuntimeError
+      raise RuntimeError('Error: Numbers cannot be more than four digits.')
 
-def print_grid(arranged_problems):
-  for row in arranged_problems:
-    print(row)
+
 
 # arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"], True)
 
 # arithmetic_arranger(["32 + 698"], True)
 
-# arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
+arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
+# arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49", "523 - 49", "523 - 49"], True)
 # arithmetic_arranger(["32 * 698"], True)
 
 # arithmetic_arranger(["3.2 + 698"], True)
 
-arithmetic_arranger(["32 + 69548"], True)
+# arithmetic_arranger(["32 + 69548"], True)
